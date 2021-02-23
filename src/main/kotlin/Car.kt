@@ -1,28 +1,24 @@
-interface Car {
-    val manufacturer: String
-    val model: String
-    val color: String
-    var currentSpeed: Int
+abstract class Car(val manufacturer: String,
+                   val model: String,
+                   val color: String,
+                   var currentSpeed: Int) {
 
-    fun carInfo() = "Информация о машине: ".prettyPrint()
 
     fun String.prettyPrint() {
-        println("Производитель: '${manufacturer}' Модель: '${model}' Цвет: '${color}' Текущая скорость: '${currentSpeed}':")
+        println("Производитель: '$manufacturer'" +
+                "Модель: '$model' " +
+                "Цвет: '$color' " +
+                "Текущая скорость: '$currentSpeed':")
         println(this)
         println()
     }
 
-    fun increaseSpeed() {
-        currentSpeed += 30
-    }
+    abstract fun increaseSpeed()
 
-    fun slowDown() {
-        currentSpeed -= 30
-    }
+    abstract fun slowDown()
 
-    fun currentSpeedInfo() {
-        "Текущая скорость= $currentSpeed".prettyPrint()
-    }
+    abstract fun currentSpeedInfo():Int
 
-    fun turnOnTheWipers()
+    abstract fun turnOnTheWipers()
+
 }

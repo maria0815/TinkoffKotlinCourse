@@ -1,14 +1,37 @@
-class Truck(override val manufacturer: String, override val model: String, override val color: String, override var currentSpeed: Int, private val body: String) : Car {
+class Truck(manufacturer: String,
+            model: String,
+            color: String,
+            currentSpeed: Int,
+            private val body: String) : Car(manufacturer, model, color, currentSpeed) {
 
     override fun increaseSpeed(){
-        currentSpeed+=20
+        currentSpeed+=15
+        "Скорость увеличена на 15".prettyPrint()
+    }
+
+    fun increaseSpeed(number:Int) {
+        currentSpeed+=number
+        "Скорость увеличена на '$number'".prettyPrint()
     }
 
     override fun slowDown(){
-        currentSpeed-=20
+        currentSpeed-=15
+        "Скорость уменьшена на 15".prettyPrint()
+    }
+
+    override fun currentSpeedInfo(): Int {
+        "Текущая скорость равна '$currentSpeed'".prettyPrint()
+        return currentSpeed
+    }
+
+    fun slowDown(number:Int){
+        currentSpeed-=number
+        "Скорость уменьшена на '$number'".prettyPrint()
     }
 
     override fun turnOnTheWipers() {
+        "Окно очищено!".prettyPrint()
+
     }
 
     fun lowerTheBody(){

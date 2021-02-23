@@ -1,4 +1,9 @@
-class Convertible(override val manufacturer: String, override val model: String, override val color: String, override var currentSpeed: Int, boot: String, private val roof:String) : Automobile(manufacturer, model, color, currentSpeed, boot) {
+class Convertible(manufacturer: String,
+                  model: String,
+                  color: String,
+                  currentSpeed: Int,
+                  boot: String,
+                  private val roof:String) : Automobile(manufacturer, model, color, currentSpeed, boot) {
 
     override fun openBoot() {
         "Багажник кабриолета открыт".prettyPrint()
