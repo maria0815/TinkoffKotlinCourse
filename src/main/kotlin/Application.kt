@@ -45,6 +45,7 @@ fun main() {
     with(volvoB9L) {
         openDoors()
         closeDoors()
+        infoOfNumberDoors()
         currentSpeedInfo()
         increaseSpeed()
         turnOnTheWipers()

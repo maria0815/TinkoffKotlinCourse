@@ -3,12 +3,13 @@ abstract class Car(val manufacturer: String,
                    val color: String,
                    var currentSpeed: Int) {
 
-
     fun String.prettyPrint() {
-        println("Производитель: '$manufacturer'" +
-                "Модель: '$model' " +
-                "Цвет: '$color' " +
-                "Текущая скорость: '$currentSpeed':")
+        print("""
+           |Производитель: '$manufacturer'
+           |Модель: '$model'
+           |Цвет: '$color'
+           |Текущая скорость: '$currentSpeed'
+           |""".trimMargin())
         println(this)
         println()
     }
@@ -17,8 +18,7 @@ abstract class Car(val manufacturer: String,
 
     abstract fun slowDown()
 
-    abstract fun currentSpeedInfo():Int
+    abstract fun currentSpeedInfo(): Int
 
     abstract fun turnOnTheWipers()
-
 }

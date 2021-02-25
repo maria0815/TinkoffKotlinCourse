@@ -12,13 +12,17 @@ class Bus(manufacturer: String,
         "Двери закрыты".prettyPrint()
     }
 
+    fun infoOfNumberDoors() {
+        "Количество дверей в автобусе: '$numberOfDoors'".prettyPrint()
+    }
+
     override fun increaseSpeed() {
-        currentSpeed+=10
+        currentSpeed += 10
         "Скорость увеличена на 10".prettyPrint()
     }
 
     override fun slowDown() {
-        currentSpeed-=10
+        currentSpeed -= 10
         "Скорость уменьшена на 10".prettyPrint()
     }
 

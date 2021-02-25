@@ -3,21 +3,21 @@ class Convertible(manufacturer: String,
                   color: String,
                   currentSpeed: Int,
                   boot: String,
-                  private val roof:String) : Automobile(manufacturer, model, color, currentSpeed, boot) {
+                  private val roof: String) : Automobile(manufacturer, model, color, currentSpeed, boot) {
 
     override fun openBoot() {
         "Багажник кабриолета открыт".prettyPrint()
     }
 
-    override fun closeBoot(){
+    override fun closeBoot() {
         "Багажник кабриолета закрыт".prettyPrint()
     }
 
-    fun openRoof(){
-        "Крыша поднята".prettyPrint()
+    fun openRoof() {
+        "Крыша типа $roof поднята".prettyPrint()
     }
 
-    fun lowerRoof(){
-        "Крыша опущена".prettyPrint()
+    fun lowerRoof() {
+        "Крыша $roof опущена".prettyPrint()
     }
 }
