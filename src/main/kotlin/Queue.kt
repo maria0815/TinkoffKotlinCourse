@@ -10,9 +10,7 @@ class Queue<T> {
     private val dataOfElements = LinkedList<T>()
 
     /**
-     * Добавляет элемент в конец очереди
-     * @param element - элемент, который будет добавлен в очередь
-     * @return возвращает добавленный в очередь элемент
+     * Добавляет [element] в конец очереди и возвращает добавленный элемент
      */
     fun enqueue(element: T): T {
         dataOfElements.add(element)
@@ -21,7 +19,6 @@ class Queue<T> {
 
     /**
      * Возвращает первый элемент очереди и удаляет его из очереди
-     * @return возвращает первый элемент очереди
      */
     fun dequeue(): T {
         if (dataOfElements.isEmpty())
@@ -35,9 +32,7 @@ class Queue<T> {
 }
 
 /**
- * Возвращает очередь
- * @param elements - элементы, которые будут добавлены в очередь при создании
- * @return возвращает очередь с заданными элементами
+ * Возвращает очередь с заданными [elements]
  */
 fun <T> queueOf(vararg elements: T): Queue<T> {
     val queue = Queue<T>()

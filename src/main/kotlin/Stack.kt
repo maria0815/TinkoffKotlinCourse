@@ -6,9 +6,7 @@ class Stack<T> {
     private val dataOfElements = mutableListOf<T>()
 
     /**
-     * Добавляет элемент в стек
-     * @param element - элемент, который будет добавлен в стек
-     * @return возвращает добавленный в стек элемент
+     * Добавляет [element] в стек и возвращает добавленный элемент
      */
     fun push(element: T): T {
         dataOfElements.add(element)
@@ -17,12 +15,10 @@ class Stack<T> {
 
     /**
      * Возвращает верхний элемент и удаляет его из стека
-     * @return возвращает элемент с верхушки стека
      */
     fun pop(): T {
         if (dataOfElements.isEmpty())
             throw NoSuchElementException("Stack is empty.")
-
         return dataOfElements.removeLast()
     }
 
@@ -32,9 +28,7 @@ class Stack<T> {
 }
 
 /**
- * Возвращает стек
- * @param elements - элементы, которые будут добавлены в стек при создании
- * @return возвращает стек с заданными элементами
+ * Возвращает стек с заданными [elements]
  */
 fun <T> stackOf(vararg elements: T): Stack<T> {
     val stack = Stack<T>()

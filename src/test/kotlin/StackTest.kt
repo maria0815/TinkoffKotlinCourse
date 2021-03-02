@@ -5,7 +5,7 @@ import org.junit.jupiter.api.assertThrows
 internal class StackTest {
 
     @Test
-    fun `The last item on the stack must equal the number added to the stack`() {
+    fun `the last item on the stack must equal the number added to the stack`() {
         val stack = stackOf<Int>()
 
         assertEquals(5, stack.push(5))
@@ -17,7 +17,7 @@ internal class StackTest {
     }
 
     @Test
-    fun `The item removed from the stack is equal to the number that was at the top of the stack`() {
+    fun `the item removed from the stack is equal to the number that was at the top of the stack`() {
         val stack = stackOf(1, 3, 8)
 
         assertEquals("[1, 3, 8]", stack.toString())
@@ -30,7 +30,7 @@ internal class StackTest {
     }
 
     @Test
-    fun `Removing an item from an empty stack will throw an exception`() {
+    fun `removing an item from an empty stack will throw an exception`() {
         val stack = stackOf<Int>()
 
         assertThrows<NoSuchElementException> {
@@ -39,7 +39,7 @@ internal class StackTest {
     }
 
     @Test
-    fun `Creating a stack using the default constructor`() {
+    fun `creating a stack using the default constructor`() {
         val stack = Stack<Double>()
 
         assertEquals(5.0, stack.push(5.0))
