@@ -1,6 +1,4 @@
-import java.util.*
-import java.util.concurrent.LinkedBlockingQueue
-import kotlin.NoSuchElementException
+import java.util.LinkedList
 
 /**
  * Структура данных, представляющая собой список элементов, организованных по принципу FIFO
