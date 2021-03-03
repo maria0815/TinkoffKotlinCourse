@@ -6,6 +6,11 @@ class Stack<T> {
     private val dataOfElements = mutableListOf<T>()
 
     /**
+     * Возвращает размер стека
+     */
+    val size get() = dataOfElements.size
+
+    /**
      * Добавляет [element] в стек и возвращает добавленный элемент
      */
     fun push(element: T): T {
@@ -17,8 +22,7 @@ class Stack<T> {
      * Возвращает верхний элемент и удаляет его из стека
      */
     fun pop(): T {
-        if (dataOfElements.isEmpty())
-            throw NoSuchElementException("Stack is empty.")
+        if (dataOfElements.isEmpty()) throw NoSuchElementException("Stack is empty.")
         return dataOfElements.removeLast()
     }
 

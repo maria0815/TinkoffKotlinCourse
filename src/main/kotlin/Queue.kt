@@ -8,6 +8,11 @@ class Queue<T> {
     private val dataOfElements = LinkedList<T>()
 
     /**
+     * Возвращает размер очереди
+     */
+    val size get() = dataOfElements.size
+
+    /**
      * Добавляет [element] в конец очереди и возвращает добавленный элемент
      */
     fun enqueue(element: T): T {
@@ -19,8 +24,7 @@ class Queue<T> {
      * Возвращает первый элемент очереди и удаляет его из очереди
      */
     fun dequeue(): T {
-        if (dataOfElements.isEmpty())
-            throw NoSuchElementException("Queue is empty.")
+        if (dataOfElements.isEmpty()) throw NoSuchElementException("Queue is empty.")
         return dataOfElements.removeFirst()
     }
 
