@@ -11,7 +11,7 @@ internal class FilmDSLTest {
     fun `number of reviews with a rating of 10 equals 1`() {
         val film = mockk<Film> {
             every { name } returns "Hachiko"
-            every { reviews } returns mutableListOf(
+            every { reviews } returns listOf(
                 mockk {
                     every { rating } returns 8
                     every { comment } returns "Great!"

@@ -1,6 +1,6 @@
 data class Film(
     var name: String = "",
-    var reviews: MutableList<Review> = mutableListOf(),
+    var reviews: List<Review> = listOf(),
 ) {
     /**
      * Возвращает количество отзывов, у которых оценка равна [rating]
