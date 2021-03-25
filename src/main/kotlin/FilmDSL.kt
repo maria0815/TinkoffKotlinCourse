@@ -1,6 +1,6 @@
 data class Film(
     var name: String = "",
-    var reviews: List<Review> = listOf(),
+    var reviews: List<Review> = emptyList(),
 ) {
     /**
      * Возвращает количество отзывов, у которых оценка равна [rating]
