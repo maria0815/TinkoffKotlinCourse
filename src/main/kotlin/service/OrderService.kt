@@ -1,9 +1,12 @@
 package service
 
 import utils.DbConnection
-import entity.*
+import entity.Order
+import entity.OrderGroupedByClientId
+import entity.OrderGroupedByClientIdMapper
+import entity.OrderMapper
 import script.Script
-import java.sql.SQLException
+import java.time.LocalDate
 
 class OrderService(private val dbConnection: DbConnection) {
 
@@ -11,47 +14,41 @@ class OrderService(private val dbConnection: DbConnection) {
      *Возвращает заказ с идентификатором равным [id]
      */
     fun findOrderById(id: Int): Order? {
-        return try {
+        return runCatching {
             dbConnection.executeQueryForObject(Script.SELECT_ORDER_WITH_ID, OrderMapper(), id)
-        } catch (exception: SQLException) {
-            println("Ошибка выполнения запроса. ${exception.message}")
-            null
-        }
+        }.onFailure { println("Ошибка выполнения запроса. ${it.message}") }.getOrNull()
     }
 
     /**
-     *Возвращает список заказов, у которых дата позднее, чем 04.03.21
+     *Возвращает список заказов, у которых дата позднее, чем [date]
      */
-    fun findOrderWithDateLater(): List<Order> {
-        return try {
-            dbConnection.executeQuery(Script.SELECT_ORDERS_WHERE_DATE_AFTER, OrderMapper())
-        } catch (exception: SQLException) {
-            println("Ошибка выполнения запроса. ${exception.message}")
-            listOf()
-        }
+    fun findOrderWithDateLater(date: LocalDate): List<Order> {
+        return runCatching {
+            dbConnection.executeQuery(Script.SELECT_ORDERS_WHERE_DATE_AFTER, OrderMapper(), date)
+        }.onFailure {
+            println("Ошибка выполнения запроса. ${it.message}")
+        }.getOrDefault(emptyList())
     }
 
     /**
      *Возвращает список с количеством заказов по каждому клиенту
      */
     fun groupOrdersByClientId(): List<OrderGroupedByClientId> {
-        return try {
+        return runCatching {
             dbConnection.executeQuery(Script.GROUP_ORDERS_BY_CLIENTID, OrderGroupedByClientIdMapper())
-        } catch (exception: SQLException) {
-            println("Ошибка выполнения запроса. ${exception.message}")
-            listOf()
-        }
+        }.onFailure {
+            println("Ошибка выполнения запроса. ${it.message}")
+        }.getOrDefault(emptyList())
     }
 
     /**
      *Возвращает список заказов, отсортированных по убыванию даты заказа
      */
     fun sortOrdersInDescending(): List<Order> {
-        return try {
+        return runCatching {
             dbConnection.executeQuery(Script.SORT_ORDERS_BY_DATE_DESC, OrderMapper())
-        } catch (exception: SQLException) {
-            println("Ошибка выполнения запроса. ${exception.message}")
-            listOf()
-        }
+        }.onFailure {
+            println("Ошибка выполнения запроса. ${it.message}")
+        }.getOrDefault(emptyList())
     }
 }

@@ -4,6 +4,7 @@ import service.ClientService
 import service.OrderLineService
 import service.OrderService
 import service.ProductService
+import java.time.LocalDate
 
 fun main() {
     DbConnection().use { dbConnection ->
@@ -38,7 +39,8 @@ fun main() {
         orderService.findOrderById(5)?.let { println(it) }
 
         println("\nСписок заказов с датой позднее 4.03.21:")
-        orderService.findOrderWithDateLater().forEach { println(it) }
+        val date = LocalDate.of(2021, 3, 4)
+        orderService.findOrderWithDateLater(date).forEach { println(it) }
 
         println("\nСписок заказов, группированных по ИД клиента:")
         orderService.groupOrdersByClientId().forEach { println(it) }
