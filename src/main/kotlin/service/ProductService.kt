@@ -23,7 +23,7 @@ class ProductService(private val dbConnection: DbConnection) {
      */
     fun findProductsByIdGrater(id: Int): List<Product> {
         return runCatching {
-            dbConnection.executeQuery(Script.SELECT_PRODUCTS_WHERE_ID_GRATER1, ProductMapper(), id)
+            dbConnection.executeQuery(Script.SELECT_PRODUCTS_WHERE_ID_GRATER, ProductMapper(), id)
         }.onFailure {
             println("Ошибка выполнения запроса. ${it.message}")
         }.getOrDefault(emptyList())

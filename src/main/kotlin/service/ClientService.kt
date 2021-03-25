@@ -23,9 +23,9 @@ class ClientService(private val dbConnection: DbConnection) {
     /**
      * Возвращает список клиентов, у которых город не СПБ
      */
-    fun findClientWithCityIsNotSpb(): List<Client> {
+    fun findClientWithCityIsNot(city: String): List<Client> {
         return runCatching {
-            dbConnection.executeQuery(Script.SELECT_CLIENTS_WHERE_CITY_NO_EQUALS_SPB, ClientMapper())
+            dbConnection.executeQuery(Script.SELECT_CLIENTS_WHERE_CITY_NO_EQUALS, ClientMapper(), city)
         }.onFailure {
             println("Ошибка выполнения запроса. ${it.message}")
         }.getOrDefault(emptyList())

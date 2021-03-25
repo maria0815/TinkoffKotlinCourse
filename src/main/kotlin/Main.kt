@@ -22,7 +22,7 @@ fun main() {
         clientService.findClientById(1)?.let { println(it) }
 
         println("\nСписок клиентов, у которых город не СПБ:")
-        clientService.findClientWithCityIsNotSpb().forEach { println(it) }
+        clientService.findClientWithCityIsNot("Санкт-Петербург").forEach { println(it) }
 
         println("\nГруппировка клиентов по городам:")
         clientService.groupClientsByCity().forEach { println(it) }

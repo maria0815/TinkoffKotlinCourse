@@ -138,10 +138,10 @@ object Script {
         """
 
     @Language("PostgreSQL")
-    const val SELECT_CLIENTS_WHERE_CITY_NO_EQUALS_SPB = """
+    const val SELECT_CLIENTS_WHERE_CITY_NO_EQUALS = """
         SELECT id, name, email, city
         FROM client
-        WHERE city <> 'Санкт-Петербург';
+        WHERE city <> ?;
         """
 
     @Language("PostgreSQL")
@@ -238,10 +238,10 @@ object Script {
         """
 
     @Language("PostgreSQL")
-    const val SELECT_PRODUCTS_WHERE_ID_GRATER1 = """  
+    const val SELECT_PRODUCTS_WHERE_ID_GRATER = """  
         SELECT id, name, manufacturer, color
         FROM product
-        WHERE id > 1;
+        WHERE id > ?;
         """
 
     @Language("PostgreSQL")
