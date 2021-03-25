@@ -176,7 +176,7 @@ object Script {
     const val SELECT_ORDERS_WHERE_DATE_AFTER = """
         SELECT id, client_id, date, delivery, archive
         FROM "order"
-        WHERE date > '2021-03-04';
+        WHERE date > ?;
         """
 
     @Language("PostgreSQL")
