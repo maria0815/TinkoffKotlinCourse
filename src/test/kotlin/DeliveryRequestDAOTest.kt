@@ -60,7 +60,7 @@ internal class DeliveryRequestDAOTest {
         val result = dao.getAllDeliveryRequests()
 
         verify { dao.getAllDeliveryRequests() }
-        assertAll(
+        assertAll("Number of delivery requests should be 2",
             { assertEquals(1, result[0].id) },
             { assertEquals("Spb", result[0].address) },
             { assertEquals(2, result[1].id) },

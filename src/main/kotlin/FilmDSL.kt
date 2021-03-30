@@ -14,5 +14,3 @@ data class Review(
     var rating: Int = 0,
     var comment: String = "",
 )
-
-fun film(block: Film.() -> Unit): Film = Film().apply(block)
