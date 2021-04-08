@@ -1,6 +1,6 @@
+import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
-import java.util.concurrent.atomic.AtomicInteger
 import kotlin.time.ExperimentalTime
 import kotlin.time.measureTime
 
@@ -18,18 +18,18 @@ fun main() {
 @ExperimentalTime
 fun measureRunTime(numberOfThreads: Int): Double {
     val executorService = Executors.newFixedThreadPool(numberOfThreads)
-    val counter = AtomicInteger()
+    val resource = CommonResource()
 
     val elapsed = measureTime {
         repeat(numberOfThreads) {
             executorService.execute {
                 while (true) {
-                    val currentValue = counter.get()
-                    val nextValue = currentValue + 1
-                    if (currentValue >= 1_000_000) {
-                        return@execute
+                    synchronized(resource) {
+                        if (resource.value >= 1_000_000) {
+                            return@execute
+                        }
+                        resource.value++
                     }
-                    counter.compareAndSet(currentValue, nextValue)
                 }
             }
         }
@@ -40,4 +40,8 @@ fun measureRunTime(numberOfThreads: Int): Double {
         }
     }
     return elapsed.inMilliseconds
+}
+
+class CommonResource {
+    var value = 0
 }
