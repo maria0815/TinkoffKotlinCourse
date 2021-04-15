@@ -23,12 +23,14 @@ fun measureRunTime(numberOfThreads: Int): Double {
     val elapsed = measureTime {
         repeat(numberOfThreads) {
             executorService.execute {
-                while (true) {
+                var flag = true
+                while (flag) {
                     synchronized(resource) {
-                        if (resource.value >= 1_000_000) {
-                            return@execute
+                        if (resource.value < 1_000_000) {
+                            resource.value++
+                        } else {
+                            flag = false
                         }
-                        resource.value++
                     }
                 }
             }
