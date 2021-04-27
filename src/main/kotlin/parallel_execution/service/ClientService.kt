@@ -2,6 +2,7 @@ package parallel_execution.service
 
 import kotlinx.coroutines.delay
 import parallel_execution.entity.Client
+import parallel_execution.exception.ClientNotFoundException
 
 /**
  * Сервис для работы с клиентами.
@@ -19,6 +20,7 @@ class ClientService {
      */
     suspend fun findById(clientId: Int): Client {
         delay(1000L)
-        return listOfClients.first { it.id == clientId }
+        return listOfClients.firstOrNull { it.id == clientId }
+            ?: throw ClientNotFoundException("Клиент с идентификатором $clientId не найден")
     }
 }
