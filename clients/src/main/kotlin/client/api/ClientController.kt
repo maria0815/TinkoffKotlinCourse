@@ -25,7 +25,7 @@ class ClientController(private val clientDao: ClientDao) {
             ApiResponse(code = 404, message = "Клиент не найден")
         ]
     )
-    @GetMapping(value = ["{id}"], produces = [MediaType.APPLICATION_JSON_VALUE])
+    @GetMapping("/{id}", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getClient(
         @ApiParam("Идентификатор клиента")
         @PathVariable id: Int

@@ -12,6 +12,7 @@ class SwaggerConfig {
     @Bean
     fun api(): Docket {
         return Docket(DocumentationType.OAS_30)
+            .useDefaultResponseMessages(false)
             .select()
             .apis(RequestHandlerSelectors.any())
             .paths(PathSelectors.any())
