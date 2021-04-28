@@ -1,0 +1,8 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5442/clients_db?currentSchema=my_schema
+    username: docker_user
+    password: docker_pass

@@ -1,18 +1,41 @@
 package order.dao
 
 import order.model.Order
+import java.sql.ResultSet
 import java.time.LocalDate
+import javax.sql.DataSource
 
-class OrderDaoImpl : OrderDao {
-    val orders = listOf(
-        Order(1, LocalDate.of(2021, 10, 1), 1),
-        Order(2, LocalDate.of(2021, 5, 7), 2),
-        Order(3, LocalDate.of(2021, 12, 15), 3),
-        Order(4, LocalDate.of(2021, 6, 9), 4),
-        Order(5, LocalDate.of(2021, 1, 20), 6)
-    )
+class OrderDaoImpl(private val dataSource: DataSource) : OrderDao {
+    override fun getById(id: Int): Order? {
+        dataSource.connection.use {
+            val statement = it.prepareStatement("select id, date, clientId from order where id = ?")
+            statement.setInt(1, id)
+            val result = statement.executeQuery()
+            if (!result.isBeforeFirst) return null
+            result.next()
+            return getOrder(result)
+        }
+    }
 
-    override fun getById(id: Int): Order? = orders.firstOrNull { it.id == id }
+    override fun getAll(): List<Order> {
+        val list = mutableListOf<Order>()
 
-    override fun getAll(): List<Order> = orders
+        dataSource.connection.use {
+            val statement = it.prepareStatement("select id, date, clientId from order")
+            val result = statement.executeQuery()
+            while (result.next()) {
+                val order = getOrder(result)
+                list.add(order)
+            }
+        }
+        return list
+    }
+
+    private fun getOrder(result: ResultSet): Order {
+        val id = result.getInt("id")
+        val date = result.getDate("date").toLocalDate()
+        val clientId = result.getInt("clientId")
+
+        return Order(id, date, clientId)
+    }
 }
