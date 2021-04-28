@@ -8,7 +8,10 @@ services:
       - clients-db
     ports:
       - 8084:${CLIENTS_APP_SERVER_PORT}
+    volumes:
+      - ./logs:/logs
     environment:
+      - LOG_LEVEL=${LOG_LEVEL}
       - PORT=${CLIENTS_APP_SERVER_PORT}
       - JDBC_URL=${CLIENTS_APP_JDBC_URL}/${CLIENTS_DB_NAME}
       - JDBC_USER=${CLIENTS_DB_ADMIN_USER}
@@ -22,7 +25,10 @@ services:
       - clients-rest-api
     ports:
       - 8083:${ORDERS_APP_SERVER_PORT}
+    volumes:
+      - ./logs:/logs
     environment:
+      - LOG_LEVEL=${LOG_LEVEL}
       - CLIENT_SERVICE_HOST=http://clients-rest-api:${CLIENTS_APP_SERVER_PORT}
       - PORT=${ORDERS_APP_SERVER_PORT}
       - JDBC_URL=${ORDERS_APP_JDBC_URL}

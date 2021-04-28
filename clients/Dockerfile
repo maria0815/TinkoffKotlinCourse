@@ -5,4 +5,4 @@ ADD build/libs/clients-1.0.jar app.jar
 #port expose
 EXPOSE $PORT
 #start jar inside container
-ENTRYPOINT ["java", "-jar", "-Dserver.port=${PORT}", "-Dspring.datasource.url=${JDBC_URL}", "-Dspring.datasource.username=${JDBC_USER}", "-Dspring.datasource.password=${JDBC_PASS}", "app.jar"]
+ENTRYPOINT ["java", "-jar", "-Dlogging.level.order=${LOG_LEVEL}", "-Dserver.port=${PORT}", "-Dspring.datasource.url=${JDBC_URL}", "-Dspring.datasource.username=${JDBC_USER}", "-Dspring.datasource.password=${JDBC_PASS}", "app.jar"]

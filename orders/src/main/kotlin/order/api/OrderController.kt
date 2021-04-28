@@ -29,7 +29,6 @@ class OrderController(
     private val orderDao: OrderDao,
     private val clientsService: ClientsIntegrationComponent
 ) {
-
     @ApiOperation("Возвращает все заказы")
     @ApiResponses(
         value = [

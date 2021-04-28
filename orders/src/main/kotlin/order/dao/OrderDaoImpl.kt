@@ -1,17 +1,24 @@
 package order.dao
 
 import order.model.Order
+import org.slf4j.LoggerFactory
 import java.sql.ResultSet
-import java.time.LocalDate
 import javax.sql.DataSource
 
 class OrderDaoImpl(private val dataSource: DataSource) : OrderDao {
+    private var logger = LoggerFactory.getLogger(OrderDaoImpl::class.java)
+
     override fun getById(id: Int): Order? {
+        logger.debug("Looking for order $id")
         dataSource.connection.use {
             val statement = it.prepareStatement("select id, date, clientId from [Order] where id = ?")
             statement.setInt(1, id)
             val result = statement.executeQuery()
-            if (!result.isBeforeFirst) return null
+            if (!result.isBeforeFirst) {
+                logger.debug("Order $id not found")
+                return null
+            }
+            logger.debug("Order $id found")
             result.next()
             return getOrder(result)
         }
@@ -19,7 +26,7 @@ class OrderDaoImpl(private val dataSource: DataSource) : OrderDao {
 
     override fun getAll(): List<Order> {
         val list = mutableListOf<Order>()
-
+        logger.debug("Looking for all orders")
         dataSource.connection.use {
             val statement = it.prepareStatement("select id, date, clientId from [Order]")
             val result = statement.executeQuery()
@@ -28,6 +35,7 @@ class OrderDaoImpl(private val dataSource: DataSource) : OrderDao {
                 list.add(order)
             }
         }
+        logger.debug("Found ${list.size} orders")
         return list
     }
 
