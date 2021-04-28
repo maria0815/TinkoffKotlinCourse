@@ -7,7 +7,7 @@ services:
     depends_on:
       - clients-db
     ports:
-      - "8084:8080"
+      - 8084:${CLIENTS_APP_SERVER_PORT}
     environment:
       - JDBC_URL=${CLIENTS_APP_JDBC_URL}/${CLIENTS_DB_NAME}
       - JDBC_USER=${CLIENTS_DB_ADMIN_USER}
@@ -20,7 +20,11 @@ services:
       - orders-db
       - clients-rest-api
     ports:
-      - "8083:8080"
+      - 8083:${CLIENTS_APP_SERVER_PORT}
+    environment:
+      - JDBC_URL=${ORDERS_APP_JDBC_URL}/${ORDERS_DB_NAME}
+      - JDBC_USER=${ORDERS_DB_ADMIN_USER}
+      - JDBC_PASS=${ORDERS_DB_ADMIN_PASS}
 
   clients-db:
     container_name: clients-db

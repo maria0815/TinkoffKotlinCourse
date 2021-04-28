@@ -1,10 +1,10 @@
 server:
-  port: 8081
+  port: ${ORDERS_APP_SERVER_PORT:8081}
 
 spring:
   datasource:
     initialization-mode: always
     data: classpath:data.sql
-    url: jdbc:postgresql://localhost:5442/clients_db
-    username: docker_user
-    password: docker_pass
+    url: jdbc:sqlserver://localhost:1443
+    username: sa
+    password: docker_Password123

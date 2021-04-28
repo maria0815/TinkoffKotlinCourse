@@ -16,7 +16,7 @@ repositories {
 dependencies {
     implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "org.springframework.boot:spring-boot-starter-data-jdbc"
-    implementation "org.postgresql:postgresql:42.2.19"
+    implementation "com.microsoft.sqlserver:mssql-jdbc:9.2.1.jre8"
 
     implementation "io.springfox:springfox-boot-starter:3.0.0"
     implementation "com.fasterxml.jackson.module:jackson-module-kotlin"
