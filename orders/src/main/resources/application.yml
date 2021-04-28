@@ -8,3 +8,6 @@ spring:
     url: jdbc:sqlserver://localhost:1443
     username: sa
     password: docker_Password123
+
+client-service:
+  host: ${CLIENT_SERVICE_HOST:http://localhost:8080}

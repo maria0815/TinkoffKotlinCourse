@@ -8,7 +8,7 @@ import javax.sql.DataSource
 class OrderDaoImpl(private val dataSource: DataSource) : OrderDao {
     override fun getById(id: Int): Order? {
         dataSource.connection.use {
-            val statement = it.prepareStatement("select id, date, clientId from order where id = ?")
+            val statement = it.prepareStatement("select id, date, clientId from [Order] where id = ?")
             statement.setInt(1, id)
             val result = statement.executeQuery()
             if (!result.isBeforeFirst) return null
@@ -21,7 +21,7 @@ class OrderDaoImpl(private val dataSource: DataSource) : OrderDao {
         val list = mutableListOf<Order>()
 
         dataSource.connection.use {
-            val statement = it.prepareStatement("select id, date, clientId from order")
+            val statement = it.prepareStatement("select id, date, clientId from [Order]")
             val result = statement.executeQuery()
             while (result.next()) {
                 val order = getOrder(result)
