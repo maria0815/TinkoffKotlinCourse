@@ -22,7 +22,7 @@ services:
     ports:
       - 8083:${CLIENTS_APP_SERVER_PORT}
     environment:
-      - JDBC_URL=${ORDERS_APP_JDBC_URL}/${ORDERS_DB_NAME}
+      - JDBC_URL=${ORDERS_APP_JDBC_URL}
       - JDBC_USER=${ORDERS_DB_ADMIN_USER}
       - JDBC_PASS=${ORDERS_DB_ADMIN_PASS}
 
