@@ -9,7 +9,7 @@ services:
     ports:
       - 8084:${CLIENTS_APP_SERVER_PORT}
     volumes:
-      - ./logs:/logs
+      - clients-service-volume:/logs
     environment:
       - LOG_LEVEL=${LOG_LEVEL}
       - PORT=${CLIENTS_APP_SERVER_PORT}
@@ -54,3 +54,8 @@ services:
       - MSSQL_PID=Developer
     ports:
       - "1443:1433"
+
+
+volumes:
+  clients-service-volume:
+    external: false
