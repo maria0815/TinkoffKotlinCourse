@@ -1,11 +1,10 @@
 server:
-  port: 8080
+  port: 8081
 
 spring:
   datasource:
     initialization-mode: always
     data: classpath:data.sql
-    platform: postgres
     url: jdbc:postgresql://localhost:5442/clients_db
     username: docker_user
     password: docker_pass

@@ -9,7 +9,7 @@ services:
     ports:
       - "8084:8080"
     environment:
-      - JDBC_URL=${CLIENTS_APP_JDBC_URL}/${CLIENTS_DB_NAME}?currentSchema=${CLIENTS_DB_SCHEMA}
+      - JDBC_URL=${CLIENTS_APP_JDBC_URL}/${CLIENTS_DB_NAME}
       - JDBC_USER=${CLIENTS_DB_ADMIN_USER}
       - JDBC_PASS=${CLIENTS_DB_ADMIN_PASS}
 
@@ -31,8 +31,6 @@ services:
       - POSTGRES_PASSWORD=${CLIENTS_DB_ADMIN_PASS}
     ports:
       - "5442:5432"
-    volumes:
-      - /clients/db-init/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   orders-db:
     container_name: orders-db
