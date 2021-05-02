@@ -2,9 +2,12 @@ package orders
 
 import java.time.LocalDate
 
-class OrderService {
-    fun findAll(): List<Order> = listOf(
-        Order(1, LocalDate.of(2021, 1, 15), 2),
-        Order(2, LocalDate.of(2021, 2, 25), 1),
-    )
+class OrderService(private val dao: OrderDao) {
+    fun findAll(): List<Order> = dao.findAll()
+
+    fun createOrder(date: LocalDate, clientId: Int): Order = dao.createOrder(date, clientId)
+
+    fun updateOrder(id: Int, date: LocalDate, clientId: Int): Order = dao.updateOrder(id, date, clientId)
+
+    fun deleteOrder(id: Int) = dao.deleteOrder(id)
 }
