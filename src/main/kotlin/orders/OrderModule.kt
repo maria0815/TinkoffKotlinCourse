@@ -1,19 +1,27 @@
 @file:UseSerializers(LocalDateSerializer::class)
+
 package orders
 
-import io.ktor.application.*
-import io.ktor.request.*
-import io.ktor.response.*
+import io.ktor.application.Application
+import io.ktor.application.call
+import io.ktor.http.HttpStatusCode
+import io.ktor.request.receive
+import io.ktor.response.respond
 import io.ktor.routing.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.UseSerializers
-import org.jetbrains.exposed.sql.Database
+import org.kodein.di.singleton
 import utils.LocalDateSerializer
 import java.time.LocalDate
+import org.kodein.di.DI
+import org.kodein.di.bind
+import org.kodein.di.instance
+import org.kodein.di.ktor.closestDI
 
-fun Application.orderModule(database: Database) {
-    val dao = OrderDao(database)
-    val service = OrderService(dao)
+
+fun Application.orderModule() {
+    val service: OrderService by closestDI().instance()
+
     routing {
         route("/orders") {
             get {
@@ -22,21 +30,31 @@ fun Application.orderModule(database: Database) {
             post {
                 val request = call.receive<CreateOrderRequest>()
                 call.respond(service.createOrder(request.date, request.clientId))
-                call.respond("Заказ создан!")
             }
             put("{id}") {
-                val id = call.parameters["id"]!!.toInt()
+                val id = call.parameters["id"]?.toInt()
+                if (id == null) {
+                    call.respond(HttpStatusCode.BadRequest)
+                    return@put
+                }
                 val request = call.receive<CreateOrderRequest>()
                 call.respond(service.updateOrder(id, request.date, request.clientId))
-                call.respond("Заказ с идентификатором $id изменен!")
             }
             delete("{id}") {
-                val id = call.parameters["id"]!!.toInt()
+                val id = call.parameters["id"]?.toInt()
+                if (id == null) {
+                    call.respond(HttpStatusCode.BadRequest)
+                    return@delete
+                }
                 call.respond(service.deleteOrder(id))
-                call.respond("Заказ с идентификатором $id удален!")
             }
         }
     }
+}
+
+fun DI.Builder.orderComponents() {
+    bind<OrderDao>() with singleton { OrderDao(instance()) }
+    bind<OrderService>() with singleton { OrderService(instance()) }
 }
 
 @Serializable

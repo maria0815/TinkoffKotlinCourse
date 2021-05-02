@@ -2,10 +2,8 @@ package clients
 
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.deleteAll
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insertAndGetId
-import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
@@ -35,9 +33,9 @@ class ClientDao(private val database: Database) {
         Clients.deleteWhere { Clients.id eq id }
     }
 
-    fun extractClient(row: ResultRow): Client = Client(
-        row[Clients.id].value,
-        row[Clients.name],
-        row[Clients.address]
+    private fun extractClient(row: ResultRow): Client = Client(
+            row[Clients.id].value,
+            row[Clients.name],
+            row[Clients.address]
     )
 }

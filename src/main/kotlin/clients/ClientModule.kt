@@ -1,15 +1,21 @@
 package clients
 
-import io.ktor.application.*
-import io.ktor.request.*
-import io.ktor.response.*
+import io.ktor.application.Application
+import io.ktor.application.call
+import io.ktor.http.HttpStatusCode
+import io.ktor.request.receive
+import io.ktor.response.respond
 import io.ktor.routing.*
 import kotlinx.serialization.Serializable
-import org.jetbrains.exposed.sql.Database
+import org.kodein.di.DI
+import org.kodein.di.bind
+import org.kodein.di.instance
+import org.kodein.di.ktor.closestDI
+import org.kodein.di.singleton
 
-fun Application.clientModule(database: Database) {
-    val dao = ClientDao(database)
-    val service = ClientService(dao)
+fun Application.clientModule() {
+    val service: ClientService by closestDI().instance()
+
     routing {
         route("/clients") {
             get {
@@ -20,24 +26,37 @@ fun Application.clientModule(database: Database) {
                 call.respond(service.createClient(request.name, request.address))
             }
             put("{id}") {
-                val id = call.parameters["id"]!!.toInt()
+                val id = call.parameters["id"]?.toInt()
+                if (id == null) {
+                    call.respond(HttpStatusCode.BadRequest)
+                    return@put
+                }
                 val request = call.receive<CreateClientRequest>()
                 call.respond(service.updateClient(id, request.name, request.address))
             }
             delete("{id}") {
-                val id = call.parameters["id"]!!.toInt()
+                val id = call.parameters["id"]?.toInt()
+                if (id == null) {
+                    call.respond(HttpStatusCode.BadRequest)
+                    return@delete
+                }
                 call.respond(service.deleteClient(id))
             }
-            get("/listOfOrdersByClientID/{id}") {
+            get("{id}/listOfOrders") {
                 val id = call.parameters["id"]
                 call.respond("Заказы по клиенту $id")
             }
-            put("/orders/{orderId}") {
-                val orderId = call.parameters["orderId"]
-                call.respond("У заказа с идентификатором $orderId изменен клиент на ...!")
+            put("{id}/addOrder") {
+                val orderId = call.parameters["id"]
+                call.respond("")
             }
         }
     }
+}
+
+fun DI.Builder.clientComponents() {
+    bind<ClientDao>() with singleton { ClientDao(instance()) }
+    bind<ClientService>() with singleton { ClientService(instance()) }
 }
 
 @Serializable
