@@ -34,9 +34,11 @@ class OrderDao(private val database: Database) {
         Orders.deleteWhere { Orders.id eq id }
     }
 
-    private fun extractOrder(row: ResultRow): Order = Order(
-        row[Orders.id].value,
-        row[Orders.date],
-        row[Orders.clientId]
-    )
+    companion object {
+        fun extractOrder(row: ResultRow): Order = Order(
+            row[Orders.id].value,
+            row[Orders.date],
+            row[Orders.clientId].value
+        )
+    }
 }
