@@ -10,29 +10,32 @@ class OrderDaoImpl(private val dataSource: DataSource) : OrderDao {
 
     override fun getById(id: Int): Order? {
         logger.debug("Looking for order $id")
-        dataSource.connection.use {
-            val statement = it.prepareStatement("select id, date, clientId from [Order] where id = ?")
-            statement.setInt(1, id)
-            val result = statement.executeQuery()
-            if (!result.isBeforeFirst) {
-                logger.debug("Order $id not found")
-                return null
+        var order: Order? = null
+        dataSource.connection.use { connection ->
+            connection.prepareStatement("select top 1 id, date, clientId from [Order] where id = ?").use { statement ->
+                statement.setInt(1, id)
+                statement.executeQuery().use { result ->
+                    while (result.next()) {
+                        logger.debug("Order $id found")
+                        order = getOrder(result)
+                    }
+                }
             }
-            logger.debug("Order $id found")
-            result.next()
-            return getOrder(result)
         }
+        return order
     }
 
     override fun getAll(): List<Order> {
         val list = mutableListOf<Order>()
         logger.debug("Looking for all orders")
-        dataSource.connection.use {
-            val statement = it.prepareStatement("select id, date, clientId from [Order]")
-            val result = statement.executeQuery()
-            while (result.next()) {
-                val order = getOrder(result)
-                list.add(order)
+        dataSource.connection.use { connection ->
+            connection.prepareStatement("select id, date, clientId from [Order]").use { statement ->
+                statement.executeQuery().use { result ->
+                    while (result.next()) {
+                        val order = getOrder(result)
+                        list.add(order)
+                    }
+                }
             }
         }
         logger.debug("Found ${list.size} orders")

@@ -1,6 +1,7 @@
 package client.api
 
 import client.dao.ClientDao
+import client.exception.ClientNotFoundException
 import client.model.Client
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiParam
@@ -30,7 +31,7 @@ class ClientController(private val clientDao: ClientDao) {
         @ApiParam("Идентификатор клиента")
         @PathVariable id: Int
     ): ResponseEntity<Client> {
-        val client = clientDao.getById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+        val client = clientDao.getById(id) ?: throw ClientNotFoundException("Клиент не найден!")
         return ResponseEntity.ok(client)
     }
 }

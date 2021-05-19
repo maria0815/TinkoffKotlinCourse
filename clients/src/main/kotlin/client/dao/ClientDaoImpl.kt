@@ -10,19 +10,20 @@ class ClientDaoImpl(private val dataSource: DataSource) : ClientDao {
 
 
     override fun getById(id: Int): Client? {
-        dataSource.connection.use {
+        var client: Client? = null
+        dataSource.connection.use { connection ->
             logger.debug("Looking for client $id")
-            val statement = it.prepareStatement("select id, name, address from client where id = ?")
-            statement.setInt(1, id)
-            val result = statement.executeQuery()
-            if (!result.isBeforeFirst) {
-                logger.debug("Client $id not found")
-                return null
+            connection.prepareStatement("select id, name, address from client where id = ? limit 1").use { statement ->
+                statement.setInt(1, id)
+                statement.executeQuery().use { result ->
+                    while (result.next()) {
+                        logger.debug("Client $id found")
+                        client = getClient(result)
+                    }
+                }
             }
-            logger.debug("Client $id found")
-            result.next()
-            return getClient(result)
         }
+        return client
     }
 
     private fun getClient(result: ResultSet): Client {
