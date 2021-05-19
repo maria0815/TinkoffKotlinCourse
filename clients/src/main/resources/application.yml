@@ -1,0 +1,11 @@
+server:
+  port: ${CLIENTS_APP_SERVER_PORT:8080}
+
+spring:
+  datasource:
+    initialization-mode: always
+    data: classpath:data.sql
+    platform: postgres
+    url: jdbc:postgresql://localhost:5442/clients_db
+    username: docker_user
+    password: docker_pass

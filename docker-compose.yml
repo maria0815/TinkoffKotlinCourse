@@ -1,0 +1,61 @@
+version: '3.1'
+
+services:
+  clients-rest-api:
+    container_name: clients-rest-api
+    image:  clients-rest-api:1.0
+    depends_on:
+      - clients-db
+    ports:
+      - 8084:${CLIENTS_APP_SERVER_PORT}
+    volumes:
+      - clients-service-volume:/logs
+    environment:
+      - LOG_LEVEL=${LOG_LEVEL}
+      - PORT=${CLIENTS_APP_SERVER_PORT}
+      - JDBC_URL=${CLIENTS_APP_JDBC_URL}/${CLIENTS_DB_NAME}
+      - JDBC_USER=${CLIENTS_DB_ADMIN_USER}
+      - JDBC_PASS=${CLIENTS_DB_ADMIN_PASS}
+
+  orders-rest-api:
+    container_name: orders-rest-api
+    image:  orders-rest-api:1.0
+    depends_on:
+      - orders-db
+      - clients-rest-api
+    ports:
+      - 8083:${ORDERS_APP_SERVER_PORT}
+    volumes:
+      - ./logs:/logs
+    environment:
+      - LOG_LEVEL=${LOG_LEVEL}
+      - CLIENT_SERVICE_HOST=http://clients-rest-api:${CLIENTS_APP_SERVER_PORT}
+      - PORT=${ORDERS_APP_SERVER_PORT}
+      - JDBC_URL=${ORDERS_APP_JDBC_URL}
+      - JDBC_USER=${ORDERS_DB_ADMIN_USER}
+      - JDBC_PASS=${ORDERS_DB_ADMIN_PASS}
+
+  clients-db:
+    container_name: clients-db
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=${CLIENTS_DB_NAME}
+      - POSTGRES_USER=${CLIENTS_DB_ADMIN_USER}
+      - POSTGRES_PASSWORD=${CLIENTS_DB_ADMIN_PASS}
+    ports:
+      - "5442:5432"
+
+  orders-db:
+    container_name: orders-db
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${ORDERS_DB_ADMIN_PASS}
+      - MSSQL_PID=Developer
+    ports:
+      - "1443:1433"
+
+
+volumes:
+  clients-service-volume:
+    external: false
